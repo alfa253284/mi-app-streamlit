@@ -3,20 +3,18 @@ from streamlit_gsheets import GSheetsConnection
 
 st.title("Stock Nodo CBA")
 
-# Conexión a Google Sheets
+url = "https://docs.google.com/spreadsheets/d/1NL2BRRxNlLBL2DJK63DtjLuFDMnbYfHiVktK4pziMSE/edit?gid=0#gid=0"
+
+
 conn = st.connection("gsheets", type=GSheetsConnection)
-df = conn.read(ttl=0)
+df = conn.read(spreadsheet=url, ttl=0)
 
-# Eliminar filas vacías
-df = df.dropna(how="all")
-
-# Configurar la columna DN SPARE como imagen
 st.dataframe(
     df,
     column_config={
-        "DN SPARE": st.column_config.ImageColumn(
-            "Vista Previa", help="Foto del repuesto", width="small"
+        "Link WhatsApp": st.column_config.LinkColumn(
+            "WhatsApp",
+            display_text="Enviar a WhatsApp"
         )
-    },
-    hide_index=True,
+    }
 )
